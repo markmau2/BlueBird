@@ -17,3 +17,10 @@ plugins/
 
 # OS
 .DS_Store
+
+# BlueBird runtime markers
+.bluebird-last-run.txt
+
+# Biometric data: stays local, never pushed
+face_reference*.npy
+face_reference_photo*.jpg

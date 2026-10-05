@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=BlueBird Face Check
+Comment=Run the BlueBird owner face check once at desktop login and speak the result.
+Exec=/bin/bash /home/mrosas/.openclaw/workspace/scripts/bluebird-login-check.sh
+Terminal=false
+X-GNOME-Autostart-enabled=true
+X-GNOME-Autostart-Phase=Initialization
+X-GNOME-Autostart-Delay=10
+Hidden=false

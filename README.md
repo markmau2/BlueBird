@@ -39,6 +39,28 @@ python3 -m venv .venv
 .venv/bin/python face_check.py
 ```
 
+## Triggers: login and lock/unlock
+
+- **Full login:** `deploy/bluebird-facecheck.desktop` → `~/.config/autostart/`
+  runs `scripts/bluebird-login-check.sh` once after desktop login.
+- **Lock/unlock:** `scripts/bluebird-watch.py` listens for gnome-shell's
+  `org.gnome.ScreenSaver.ActiveChanged` signal (logind `LockedHint` as
+  backup) and runs the check on each unlock. Install as a user service:
+
+```bash
+cp deploy/bluebird-watch.service ~/.config/systemd/user/
+systemctl --user daemon-reload
+systemctl --user enable --now bluebird-watch.service
+```
+
+Logs: `~/.openclaw/logs/bluebird-watch.log`, `bluebird-login-check.log`.
+
+## References
+
+`face_reference.npy` holds one 128-d encoding per row (e.g. daylight +
+night); a face matches if it's within the threshold of any row. Add a row
+when a new lighting condition causes false FAILs.
+
 ## Notes
 
 - Camera index and brightness/boost are tuned in-script for a C920 on a

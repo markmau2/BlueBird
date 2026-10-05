@@ -1,0 +1,15 @@
+[Unit]
+Description=BlueBird unlock watcher (face check on screen unlock)
+After=graphical-session.target
+Wants=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /home/mrosas/.openclaw/workspace/scripts/bluebird-watch.py
+Restart=on-failure
+RestartSec=5
+Environment=HOME=/home/mrosas
+WorkingDirectory=/home/mrosas/.openclaw/workspace
+
+[Install]
+WantedBy=graphical-session.target
