@@ -1,0 +1,4 @@
+numpy
+opencv-python
+face-recognition
+dlib>=19.24  # required by face_recognition; builds from source if no wheel

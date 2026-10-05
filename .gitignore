@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Scratch / temp images
+ref_*.jpg
+webcam_test.jpg
+workspace_now.jpg
+
+# OpenClaw runtime
+DREAMS.md
+MEMORY.md
+MEMORY.md.pre-trim.bak
+memory/
+plugins/
+
+# OS
+.DS_Store
