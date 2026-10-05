@@ -9,7 +9,9 @@ import numpy as np
 import face_recognition
 import cv2
 
-REF = np.load('/home/mrosas/.openclaw/workspace/face_reference.npy')
+# One row per reference (e.g. daylight + night). A face matches if it is
+# within TOL of ANY reference.
+REF = np.load('/home/mrosas/.openclaw/workspace/face_reference.npy').reshape(-1, 128)
 TOL = 0.5
 BOOST = 1.5
 CHECKS = 5
@@ -31,6 +33,10 @@ if cap is None or not cap.isOpened():
     sys.exit(1)
 
 cap.set(cv2.CAP_PROP_BRIGHTNESS, 150)
+# Drop frames while auto-exposure settles after the brightness change, so all
+# checks see the same image the reference was captured with.
+for _ in range(15):
+    cap.read()
 
 def speak(text: str):
     try:
@@ -55,7 +61,7 @@ try:
         rgb = cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB)
         faces = face_recognition.face_encodings(rgb, model='hog')
         if faces:
-            best = min(np.linalg.norm(np.array(f) - REF) for f in faces)
+            best = min(np.linalg.norm(REF - np.array(f), axis=1).min() for f in faces)
             label = "MATCH" if best <= TOL else "STRANGER"
             print(f"check {i+1}: {label} dist={best:.3f}", flush=True)
             if label == "MATCH":
